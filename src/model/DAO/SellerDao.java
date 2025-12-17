@@ -1,6 +1,5 @@
 package model.DAO;
 
-import java.lang.classfile.constantpool.IntegerEntry;
 import java.util.List;
 
 import model.entities.Seller;
