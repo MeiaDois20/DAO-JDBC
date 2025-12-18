@@ -48,16 +48,6 @@ public class DB {
 			throw new DbException(e.getMessage());
 		}
 	}
-	
-	public static void closeStatement(Statement st) {
-		if (st != null) {
-			try {
-				st.close();
-			} catch (SQLException e) {
-				throw new DbException(e.getMessage());
-			}
-		}
-	}
 
 	public static void closePreparedStatement(PreparedStatement ps) {
 		if (ps != null) {

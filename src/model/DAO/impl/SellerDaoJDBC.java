@@ -1,5 +1,6 @@
 package model.DAO.impl;
 
+import java.beans.Statement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,8 +9,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.naming.spi.DirStateFactory.Result;
 
 import db.DB;
 import db.DbException;
@@ -28,7 +27,41 @@ public class SellerDaoJDBC implements SellerDao{
 
     @Override
     public void insert(Seller s) {
-        
+        PreparedStatement ps = null;
+
+        try {
+            ps = conn.prepareStatement(
+                "INSERT INTO seller " +
+                "(Name, Email, BirthDate, BaseSalary, DepartmentId) " +
+                "VALUES (?, ?, ?, ?, ?)",
+                java.sql.Statement.RETURN_GENERATED_KEYS
+            );
+
+            ps.setString(1, s.getName());
+            ps.setString(2, s.getEmail());
+            ps.setDate(3, java.sql.Date.valueOf(s.getBirthDate()));
+            ps.setDouble(4, s.getBaseSalary());
+            ps.setInt(5, s.getDepartment().getId());
+
+            Integer rowsAffected = ps.executeUpdate();
+            if (rowsAffected > 0) {
+                ResultSet rs = ps.getGeneratedKeys();
+                if (rs.next()) {
+                    int id = rs.getInt(1);
+                    s.setId(id);
+                }
+                DB.closeResultSet(rs);
+            }
+            else {
+                throw new DbException("[ERROR] No rows affected!");
+            }
+        }
+        catch (SQLException e) {
+            throw new DbException(e.getMessage());
+        }
+        finally {
+            DB.closePreparedStatement(ps);
+        }
     }
 
     @Override
@@ -88,7 +121,7 @@ public class SellerDaoJDBC implements SellerDao{
 
             rs = ps.executeQuery();
 
-            List<Seller> list = new ArrayList();
+            List<Seller> list = new ArrayList<>();
             Map<Integer, Department> map = new HashMap<>();
 
             while (rs.next()) {
@@ -132,7 +165,7 @@ public class SellerDaoJDBC implements SellerDao{
 
             rs = ps.executeQuery();
 
-            List<Seller> list = new ArrayList();
+            List<Seller> list = new ArrayList<>();
             Map<Integer, Department> map = new HashMap<>();
 
             while (rs.next()) {

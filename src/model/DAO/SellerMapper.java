@@ -14,7 +14,7 @@ public class SellerMapper {
         seller.setName(rs.getString("Name"));
         seller.setEmail(rs.getString("Email"));
         seller.setBaseSalary(rs.getDouble("BaseSalary"));
-        seller.setBirthDate(rs.getDate("BirthDate"));
+        seller.setBirthDate(rs.getDate("BirthDate").toLocalDate());
         seller.setDepartment(dep);
         return seller;
     }

@@ -1,5 +1,6 @@
 package application;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import model.entities.Seller;
 
 public class App {
     public static void main(String[] args) throws Exception {
+        LocalDate localDate = LocalDate.now();
 
         SellerDao sellerDao = new DaoFactory().createSellerDao();
 
@@ -25,5 +27,11 @@ public class App {
         System.out.println("\n==== TEST 3: seller findAll ====");
         list = sellerDao.findAll();
         list.forEach(System.out::println);
+
+        System.out.println("\n==== TEST 3: seller Insert ====");
+        Seller newSeller = new Seller(null, "Ana", "ana@gmail.com", localDate, 7000.0, department);
+        sellerDao.insert(newSeller);
+        System.out.println("Inserted, new id = " + newSeller.getId());
+
     }
 }
