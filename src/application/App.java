@@ -39,5 +39,9 @@ public class App {
         seller.setEmail("thalys@gmail.com");
         sellerDao.update(seller);
         System.out.println("Update complete");
+
+        System.out.println("\n==== TEST 6: seller Delete ====");
+        sellerDao.deletedById(17);
+        System.out.println("Delete complete");
     }
 }

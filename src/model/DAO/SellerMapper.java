@@ -8,7 +8,7 @@ import model.entities.Seller;
 
 public class SellerMapper {
 
-    public static Seller instatiateSeller(ResultSet rs, Department dep) throws SQLException{
+    public static Seller instantiateSeller(ResultSet rs, Department dep) throws SQLException{
         Seller seller = new Seller();
         seller.setId(rs.getInt("Id"));
         seller.setName(rs.getString("Name"));
@@ -19,7 +19,7 @@ public class SellerMapper {
         return seller;
     }
 
-    public static Department instatiateDepartment(ResultSet rs) throws SQLException {
+    public static Department instantiateDepartment(ResultSet rs) throws SQLException {
         Department dep = new Department();
         dep.setId(rs.getInt("DepartmentId"));
         dep.setName(rs.getString("DepName"));

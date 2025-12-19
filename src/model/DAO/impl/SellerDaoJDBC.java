@@ -89,13 +89,30 @@ public class SellerDaoJDBC implements SellerDao{
             throw new DbException(e.getMessage());
         }
         finally {
-            DB.closeConnection();
+            DB.closePreparedStatement(ps);
         }
     }
 
     @Override
     public void deletedById(Integer id) {
-        
+        PreparedStatement ps = null;
+
+        try {
+            ps = conn.prepareStatement(
+                "DELETE FROM seller " +
+                "WHERE Id = ?"
+            );
+
+            ps.setInt(1, id);
+
+            ps.executeUpdate();
+        }
+        catch (SQLException e) {
+            throw new DbException(e.getMessage());
+        }
+        finally {
+            DB.closePreparedStatement(ps);
+        }
     }
 
     @Override
@@ -115,8 +132,8 @@ public class SellerDaoJDBC implements SellerDao{
 
             rs = ps.executeQuery();
             if (rs.next()) {
-                Department dep = SellerMapper.instatiateDepartment(rs);
-                Seller seller = SellerMapper.instatiateSeller(rs, dep);
+                Department dep = SellerMapper.instantiateDepartment(rs);
+                Seller seller = SellerMapper.instantiateSeller(rs, dep);
                 return seller;
             }
             return null;
@@ -153,11 +170,11 @@ public class SellerDaoJDBC implements SellerDao{
                 Department dep = map.get(rs.getInt("DepartmentId"));
 
                 if (dep == null) {
-                    dep = SellerMapper.instatiateDepartment(rs);
+                    dep = SellerMapper.instantiateDepartment(rs);
                     map.put(rs.getInt("DepartmentId"), dep);
                 }
 
-                Seller seller = SellerMapper.instatiateSeller(rs, dep);
+                Seller seller = SellerMapper.instantiateSeller(rs, dep);
                 list.add(seller);
             }
             return list;
@@ -197,11 +214,11 @@ public class SellerDaoJDBC implements SellerDao{
                 Department dep = map.get(rs.getInt("DepartmentId"));
 
                 if (dep == null) {
-                    dep = SellerMapper.instatiateDepartment(rs);
+                    dep = SellerMapper.instantiateDepartment(rs);
                     map.put(rs.getInt("DepartmentId"), dep);
                 }
 
-                Seller seller = SellerMapper.instatiateSeller(rs, dep);
+                Seller seller = SellerMapper.instantiateSeller(rs, dep);
                 list.add(seller);
             }
             return list;
