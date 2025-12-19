@@ -5,13 +5,7 @@ import java.util.List;
 import model.entities.Department;
 import model.entities.Seller;
 
-public interface SellerDao {
+public interface SellerDao extends GenericDao<Seller> {
 
-    void insert(Seller s);
-    void update(Seller s);
-    void deletedById (Integer id);
-
-    Seller findById (Integer id);
-    List<Seller> findAll ();
     List<Seller> findByDepartment(Department department);
 }

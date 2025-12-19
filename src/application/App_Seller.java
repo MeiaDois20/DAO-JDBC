@@ -1,7 +1,6 @@
 package application;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 import model.DAO.DaoFactory;
@@ -9,7 +8,7 @@ import model.DAO.SellerDao;
 import model.entities.Department;
 import model.entities.Seller;
 
-public class App {
+public class App_Seller {
     public static void main(String[] args) throws Exception {
         LocalDate localDate = LocalDate.now();
 
@@ -41,7 +40,7 @@ public class App {
         System.out.println("Update complete");
 
         System.out.println("\n==== TEST 6: seller Delete ====");
-        sellerDao.deletedById(17);
+        sellerDao.deleteById(17);
         System.out.println("Delete complete");
     }
 }

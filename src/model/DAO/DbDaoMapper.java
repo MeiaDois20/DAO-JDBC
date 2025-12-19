@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import model.entities.Department;
 import model.entities.Seller;
 
-public class SellerMapper {
+public class DbDaoMapper {
 
     public static Seller instantiateSeller(ResultSet rs, Department dep) throws SQLException{
         Seller seller = new Seller();

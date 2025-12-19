@@ -13,7 +13,7 @@ import java.util.Map;
 
 import db.DB;
 import db.DbException;
-import model.DAO.SellerMapper;
+import model.DAO.DbDaoMapper;
 import model.DAO.SellerDao;
 import model.entities.Department;
 import model.entities.Seller;
@@ -94,7 +94,7 @@ public class SellerDaoJDBC implements SellerDao{
     }
 
     @Override
-    public void deletedById(Integer id) {
+    public void deleteById(Integer id) {
         PreparedStatement ps = null;
 
         try {
@@ -132,8 +132,8 @@ public class SellerDaoJDBC implements SellerDao{
 
             rs = ps.executeQuery();
             if (rs.next()) {
-                Department dep = SellerMapper.instantiateDepartment(rs);
-                Seller seller = SellerMapper.instantiateSeller(rs, dep);
+                Department dep = DbDaoMapper.instantiateDepartment(rs);
+                Seller seller = DbDaoMapper.instantiateSeller(rs, dep);
                 return seller;
             }
             return null;
@@ -170,11 +170,11 @@ public class SellerDaoJDBC implements SellerDao{
                 Department dep = map.get(rs.getInt("DepartmentId"));
 
                 if (dep == null) {
-                    dep = SellerMapper.instantiateDepartment(rs);
+                    dep = DbDaoMapper.instantiateDepartment(rs);
                     map.put(rs.getInt("DepartmentId"), dep);
                 }
 
-                Seller seller = SellerMapper.instantiateSeller(rs, dep);
+                Seller seller = DbDaoMapper.instantiateSeller(rs, dep);
                 list.add(seller);
             }
             return list;
@@ -214,11 +214,11 @@ public class SellerDaoJDBC implements SellerDao{
                 Department dep = map.get(rs.getInt("DepartmentId"));
 
                 if (dep == null) {
-                    dep = SellerMapper.instantiateDepartment(rs);
+                    dep = DbDaoMapper.instantiateDepartment(rs);
                     map.put(rs.getInt("DepartmentId"), dep);
                 }
 
-                Seller seller = SellerMapper.instantiateSeller(rs, dep);
+                Seller seller = DbDaoMapper.instantiateSeller(rs, dep);
                 list.add(seller);
             }
             return list;
