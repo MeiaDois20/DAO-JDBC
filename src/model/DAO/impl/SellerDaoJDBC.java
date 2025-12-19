@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -66,7 +67,30 @@ public class SellerDaoJDBC implements SellerDao{
 
     @Override
     public void update(Seller s) {
-        
+        PreparedStatement ps = null;
+
+        try {
+            ps = conn.prepareStatement(
+                "UPDATE seller " +
+                "SET Name = ?, Email = ?, BirthDate = ?, BaseSalary = ?, DepartmentId = ? " +
+                "WHERE Id = ?"
+            );
+
+            ps.setString(1, s.getName());
+            ps.setString(2, s.getEmail());
+            ps.setDate(3, java.sql.Date.valueOf(s.getBirthDate()));
+            ps.setDouble(4, s.getBaseSalary());
+            ps.setInt(5, s.getDepartment().getId());
+            ps.setInt(6, s.getId());
+
+            ps.executeUpdate();
+        }
+        catch (SQLException e) {
+            throw new DbException(e.getMessage());
+        }
+        finally {
+            DB.closeConnection();
+        }
     }
 
     @Override
